@@ -1,0 +1,44 @@
+{% extends "Tracker/base.html" %}
+
+{% block title %}Login-Alumni Tracker{% endblock title %}
+
+{% block body %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/SISTec_Logo.png/1200px-SISTec_Logo.png"
+            class="img_center" alt="SISTec LOGO">
+          <form class="form-signin" method="POST" action="">
+            {% csrf_token %}
+            <div class="form-label-group">
+              <input type="text" id="Username" class="form-control" placeholder="User Name" name="username" required autofocus>
+              <label for="Username">User Name</label>
+            </div>
+            <div class="form-label-group">
+              <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required>
+              <label for="inputPassword">Password</label>
+            </div>
+
+            <div class="custom-control custom-checkbox mb-3">
+              <input type="checkbox" class="custom-control-input" id="customCheck1">
+              <label class="custom-control-label" for="customCheck1">Remember password</label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+            <hr class="my-4">
+          </form>
+          {% for message in messages %}
+          <div class="alert alert-primary text-center" role="alert">
+            {{message}}
+          </div>
+          {% endfor %}
+          <p class="text-center">Don't have a account ? Click <a href="{% url 'signup' %}">Here</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock body %}
