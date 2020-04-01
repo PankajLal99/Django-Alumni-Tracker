@@ -10,6 +10,7 @@ from django.contrib.auth import login,logout,authenticate
 from .decorators import *
 #group management
 from django.contrib.auth.models import Group
+from Tracker.models import Profile
 # Create your views here.
 
 @unauthenticated_user
