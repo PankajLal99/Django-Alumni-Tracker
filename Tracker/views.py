@@ -11,6 +11,8 @@ from .decorators import *
 #group management
 from django.contrib.auth.models import Group
 from Tracker.models import Profile
+# Scrapping Import
+from .scraper import scrap,load,close
 # Create your views here.
 
 @unauthenticated_user
@@ -45,9 +47,10 @@ def signup(request):
             '''Add group while register bew=low two lines'''
             group= Group.objects.get(name='student')
             user.groups.add(group)
-            '''Till herer'''
+            '''Till herer''' 
             '''Auto create a profile of a user'''
-            Profile.objects.create(user=user)
+            newpro=Profile.objects.create(user=user)
+            Scrapper_Data.objects.create(profile=newpro)
             '''Till here'''
             return redirect('login')
     context={
@@ -116,4 +119,20 @@ def deleteprofile(request,pk):
 def dashboard(request):
     return render(request,'Tracker/dashboard.html')
 
-    
+@login_required(login_url='login')
+@admin_only
+def scrapper(request):
+    l=Profile.objects.all()
+    try:
+        browser=load()
+        for i in l:
+            data=scrap(browser,i.linkedIn_Link) 
+            Scrapper_Data.objects.update(profile=i,name=data[1],
+            profile_title=data[2],location=data[3],connection=data[4],
+            experience=data[7],job_title=data[5],joining_date=data[6]
+            ,college_name=data[8],degree_name=data[9],stream=data[10])
+        close(browser)
+        return HttpResponse('True')
+    except:
+        close(browser)
+        return HttpResponse('False') 

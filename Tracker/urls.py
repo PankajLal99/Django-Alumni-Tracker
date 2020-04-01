@@ -11,4 +11,5 @@ urlpatterns=[
     path('cruds/<str:pk>/',views.crud,name='cruds'),
     path('delete/<str:pk>/',views.deleteprofile,name='delete'),
     path('dashboard',views.dashboard,name='dashboard'),
+    path("scrapper/",views.scrapper, name="scrapper"),
 ]

@@ -1,0 +1,17 @@
+.blur {
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -o-filter: blur(2px);
+    -ms-filter: blur(2px);
+    filter: blur(2px);
+    background-color:transparent;
+  
+  }
+  #show{
+      display: none;
+  }
+  .bg{
+      height: 100px;
+      width: 400px;
+      background-color: white;
+  }
