@@ -10,6 +10,7 @@ def load():
     options = Options()
     options.headless = True
     browser = webdriver.Chrome("C:/Users/lalpa/AppData/Local/Google/Chrome/Application/chromedriver.exe",chrome_options=options)
+    #rowser = webdriver.Chrome("/home/pankaj/chromedriver",chrome_options=options)
     browser.get('https://www.linkedin.com/uas/login')
     file = open('config.txt')
     lines = file.readlines()
