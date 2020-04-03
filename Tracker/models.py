@@ -29,7 +29,7 @@ class Scrapper_Data(models.Model):
     college_name = models.CharField(max_length=50,blank=True, null=True)
     degree_name = models.CharField(max_length=50,blank=True, null=True)
     stream = models.CharField(max_length=50,blank=True, null=True)
-    
+    degree_year = models.CharField(max_length=100,blank=True, null=True)
 
 
     

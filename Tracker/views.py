@@ -12,7 +12,7 @@ from .decorators import *
 from django.contrib.auth.models import Group
 from Tracker.models import Profile
 # Scrapping Import
-from .scraper import scrap,load,close
+from .scraper import linkedIn
 # Create your views here.
 
 @unauthenticated_user
@@ -122,17 +122,19 @@ def dashboard(request):
 @login_required(login_url='login')
 @admin_only
 def scrapper(request):
+    obj = linkedIn()
     l=Profile.objects.all()
     try:
-        browser=load()
+        obj.login()
         for i in l:
-            data=scrap(browser,i.linkedIn_Link) 
+            data=obj.scrap(i.linkedIn_Link) 
             Scrapper_Data.objects.update(profile=i,name=data[1],
             profile_title=data[2],location=data[3],connection=data[4],
             experience=data[7],job_title=data[5],joining_date=data[6]
-            ,college_name=data[8],degree_name=data[9],stream=data[10])
-        close(browser)
+            ,college_name=data[8],degree_name=data[9],stream=data[10],
+            degree_year=data[11])
+        obj.close()
         return HttpResponse('True')
     except:
-        close(browser)
+        obj.close()
         return HttpResponse('False') 
