@@ -1,0 +1,77 @@
+{% block content_t %}
+
+<h3 class="text-muted text-center mb-3">Student Information</h3>
+<table class="table table-dark table-hover text-center">
+
+    <thead>
+        <tr class="text-muted">
+
+            <th>Name</th>
+            <th>Company</th>
+            <th>EnrollNumber</th>
+            <th>Status</th>
+            <th>Branch</th>
+            <th>Degree</th>
+            <th>LinkedIn Profile</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if d %}
+        {% for i in d %}
+        <tr>
+
+            <td>{{i.user}}</td>
+            <td>{{i.Company}}</td>
+            <td>{{i.RollNo}}</td>
+            <td>{{i.Work_profile}}</td>
+            <td>{{i.Branch}}</td>
+            <td>{{i.Degree}}</td>
+            <td><a href="{{i.linkedIn_Link}}">{{i.user}}</a></td>
+
+        <tr>
+            {% endfor %}
+
+</table>
+{% else %}
+<th>No Records</th>
+{% endif %}
+<!-- pagination -->
+<nav>
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <a href="#" class="page-link py-2 px-3">
+                <span>Previous</span>
+            </a>
+        </li>
+        <li class="page-item active">
+            <a href="#" class="page-link py-2 px-3">
+                1
+            </a>
+        </li>
+        <li class="page-item">
+            <a href="#" class="page-link py-2 px-3">
+                2
+            </a>
+        </li>
+        <li class="page-item">
+            <a href="#" class="page-link py-2 px-3">
+                3
+            </a>
+        </li>
+        <li class="page-item">
+            <a href="#" class="page-link py-2 px-3">
+                <span>Next</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<!-- end of pagination -->
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- end of table -->
+
+{% endblock %}
+

@@ -13,6 +13,15 @@ from django.contrib.auth.models import Group
 from Tracker.models import Profile
 # Scrapping Import
 from .scraper import linkedIn
+# charts
+import pandas as pd
+import plotly.express as px
+import chart_studio.plotly as py
+import plotly.offline as opy
+import csv 
+from pandas import DataFrame as df
+from datetime import datetime
+from datetime import date
 # Create your views here.
 
 @unauthenticated_user
@@ -123,9 +132,139 @@ def deleteprofile(request,pk):
 @login_required(login_url='login')
 @admin_only
 def dashboard(request):
-    return render(request,'Tracker/dashboard.html')
+        
+    df = pd.DataFrame(columns=['Name','Count'])
+
+    # fetching all the valuesv of names from the 
+    
+    val = Profile.objects.values('Company')
+    l=[]
+    
+    
+    # loop for putting all the name into list
+    for i in val:
+        l.append(i['Company'])
+
+    
+    #to get the distinct value conerted to set
+    s=set(l)
+    
+    comp = len(s)
+    for i in s:
+        #filtering and fetching the count of same name and putting it in dataframe    
+        d=Profile.objects.filter(Company=i)
+        df=df.append({'Name':i,'Count':len(d)},ignore_index=True)
+        
+        
+    
+
+    fig = px.pie(df, values='Count', names='Name',color_discrete_sequence=px.colors.qualitative.Dark24,title='Companies')
+    fig.update_traces(textposition='inside', textinfo='percent')
+        
+    div = opy.plot(fig, auto_open=False, output_type='div')
+
+    # end of chart
+    # *map*
+    # csv to check geolocation
+
+    df = pd.read_csv('static/csv/worldcities.csv')
+    testing =[]
+    test =  Profile.objects.values('Current_Location')
+    for i in test:
+        testing.append(i['Current_Location'])
+    
+
+    count = len(testing)
+    # getting geolocation of cities
+    lis = []
+    lis.append(['city', 'lat', 'lng'])
+    for i in testing:
+        x = df.loc[df['city'] == i]
+        if len(x)==0:
+            break
+        else:
+            l = x.values.tolist()
+            
+            a = l[0][0]
+          
+            v = l[0][2]
+            u = l[0][3]
+
+        if len(l) > 0:
+            lis.append([i, str(v), str(u)])
+
+    with open('static/csv/pro.csv', 'w', encoding="utf-8") as file:
+        writer = csv.writer(file)
+        writer.writerows(lis)
+
+    us_cities = pd.read_csv("static/csv/pro.csv")
+    # figure plotting
+    fig = px.scatter_mapbox(us_cities, lat="lat", lon="lng", hover_name="city", hover_data=[
+                            "city"], color_discrete_sequence=["red"], zoom=3, height=500)
+
+    fig.update_layout(
+        mapbox_style="white-bg",
+        mapbox_layers=[
+            {
+                "below": 'traces',
+                "sourcetype": "raster",
+                "source": [
+                    "https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}"
+                ]
+            }
+        ])
+    fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
+    # show data on template
+    div2 = opy.plot(fig, auto_open=False, output_type='div')
+
+    #Bar graph
+    df1 = pd.DataFrame(columns=['Branch','Count'])
+    val = Profile.objects.values('Branch')
+    l=[]
+    
+    
+    # loop for putting all the name into list
+    for i in val:
+        l.append(i['Branch'])
+
+    
+    #to get the distinct value conerted to set
+    s=set(l)
+    
+    comp = len(s)
+    for i in s:
+        #filtering and fetching the count of same name and putting it in dataframe    
+        d=Profile.objects.filter(Branch=i)
+        df1=df1.append({'Branch':i,'Count':len(d)},ignore_index=True)
+
+    
+    fig3 = px.bar(df1, x='Branch', y='Count',
+                hover_data=['Count'], color_discrete_sequence=px.colors.qualitative.Dark24,
+                labels={'pop':'Number of Students'}, height=400)
+    div3 = opy.plot(fig3, auto_open=False, output_type='div')
+
+
+    
+
+    d=Profile.objects.all()
+    ce=Profile.objects.all()
+
+    # date time
+    now = datetime.now()
+
+    current_time = now.strftime("%H:%M:%S")
+    today = str(date.today())
+
+
+    # Progress bar
+    
+    
+    D={'d':d,'c':ce,'pie':div,'map':div2,'time':current_time,'date':today,'cities':count,'company':comp,'bar':div3}
+    return render(request,'dashboard/home.html',D)
+
 
 @login_required(login_url='login')
+@admin_only
 def scrapper(request):
     obj = linkedIn()
     l=Profile.objects.all()
@@ -154,3 +293,161 @@ def post(request):
         Blog.objects.create(title=title,content=content,post_img=img)
         return redirect('dashboard')
     return render(request,'Tracker/post.html')
+
+@login_required(login_url='login')
+@admin_only
+def analytics(request):
+    d=Profile.objects.all()
+    ce=Profile.objects.all()
+
+    context={'d':d,'c':ce}
+    return render(request,'sidebar_template/analytics.html',context)
+
+
+
+@login_required(login_url='login')
+@admin_only
+def charts(request):
+    df = pd.DataFrame(columns=['Name','Count'])
+
+    # fetching all the valuesv of names from the 
+    
+    val = Profile.objects.values('Company')
+    l=[]
+    
+    
+    # loop for putting all the name into list
+    for i in val:
+        l.append(i['Company'])
+
+    
+    #to get the distinct value conerted to set
+    s=set(l)
+    
+    comp = len(s)
+    for i in s:
+        #filtering and fetching the count of same name and putting it in dataframe    
+        d=Profile.objects.filter(Company=i)
+        df=df.append({'Name':i,'Count':len(d)},ignore_index=True)
+        
+        
+    
+
+    fig = px.pie(df, values='Count', names='Name',color_discrete_sequence=px.colors.qualitative.Dark24,title='Companies')
+    fig.update_traces(textposition='inside', textinfo='percent')
+        
+    div = opy.plot(fig, auto_open=False, output_type='div')
+
+
+#Bar graph
+    df1 = pd.DataFrame(columns=['Branch','Count'])
+    val = Profile.objects.values('Branch')
+    l=[]
+    
+    
+    # loop for putting all the name into list
+    for i in val:
+        l.append(i['Branch'])
+
+    
+    #to get the distinct value conerted to set
+    s=set(l)
+    
+    comp = len(s)
+    for i in s:
+        #filtering and fetching the count of same name and putting it in dataframe    
+        d=Profile.objects.filter(Branch=i)
+        df1=df1.append({'Branch':i,'Count':len(d)},ignore_index=True)
+
+    
+    fig3 = px.bar(df1, x='Branch', y='Count',
+                hover_data=['Count'], color_discrete_sequence=px.colors.qualitative.Dark24,
+                labels={'pop':'Number of Students'}, height=400)
+    div3 = opy.plot(fig3, auto_open=False, output_type='div')
+
+
+
+    context={'pie':div,'bar':div3}
+    return render(request,'sidebar_template/charts.html',context)
+
+
+    
+@login_required(login_url='login')
+@admin_only
+def tables(request):
+    d=Profile.objects.all()
+    ce=Profile.objects.all()
+
+    context={'d':d,'c':ce}
+    return render(request,'sidebar_template/tables.html',context)
+
+@login_required(login_url='login')
+@admin_only
+def companies(request):
+    d=Profile.objects.all()
+    ce=Profile.objects.all()
+
+    context={'d':d,'c':ce}
+    return render(request,'sidebar_template/comapny.html',context)
+
+
+@login_required(login_url='login')
+@admin_only
+def map(request):
+      # *map*
+    # csv to check geolocation
+
+    df = pd.read_csv('static/csv/worldcities.csv')
+    testing =[]
+    test =  Profile.objects.values('Current_Location')
+    for i in test:
+        testing.append(i['Current_Location'])
+    
+
+    count = len(testing)
+    # getting geolocation of cities
+    lis = []
+    lis.append(['city', 'lat', 'lng'])
+    for i in testing:
+        x = df.loc[df['city'] == i]
+        if len(x)==0:
+            break
+        else:
+            l = x.values.tolist()
+           
+            a = l[0][0]
+          
+            v = l[0][2]
+            u = l[0][3]
+
+        if len(l) > 0:
+            lis.append([i, str(v), str(u)])
+
+    with open('static/csv/pro.csv', 'w', encoding="utf-8") as file:
+        writer = csv.writer(file)
+        writer.writerows(lis)
+
+    us_cities = pd.read_csv("static/csv/pro.csv")
+    # figure plotting
+    fig = px.scatter_mapbox(us_cities, lat="lat", lon="lng", hover_name="city", hover_data=[
+                            "city"], color_discrete_sequence=["red"], zoom=3, height=500)
+
+    fig.update_layout(
+        mapbox_style="white-bg",
+        mapbox_layers=[
+            {
+                "below": 'traces',
+                "sourcetype": "raster",
+                "source": [
+                    "https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}"
+                ]
+            }
+        ])
+    fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
+    # show data on template
+    div2 = opy.plot(fig, auto_open=False, output_type='div')
+
+ 
+
+    context={'map':div2}
+    return render(request,'sidebar_template/map.html',context)

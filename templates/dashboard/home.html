@@ -1,0 +1,234 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CRM</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"
+        integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    {%  include 'dashboard/navbar.html' %}
+    <div class="container-fluid">
+        {% block content %}
+
+
+
+        {% endblock %}
+    </div>
+    <section>
+        <div class="container-fluid">
+
+            <div class="row mb-5">
+                <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+
+                    <div class="row align-items-center">
+                        <div class="col-xl-12 col-12 mb-4 mb-xl-0">
+                            {% include 'dashboard/analytics.html' %}
+
+                            {% block content_a %}
+
+
+                            {% endblock %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </section>
+    <section>
+        <div class="container-fluid">
+
+            <div class="row mb-5">
+                <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+
+                    <div class="row align-items-center">
+                        <div class="col-xl-12 col-12 mb-4 mb-xl-0">
+                            {% include 'dashboard/tables.html' %}
+                            {% block content_t %}
+
+
+                            {% endblock %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container-fluid">
+
+            <div class="row mb-5">
+                <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+                    <h1 class="text-muted">Location Map</h1>
+
+                    <div class="row align-items-center">
+                        <div class="col-xl-6 col-12 mb-4 mb-xl-0">
+                            <!--for graph-->
+                            {% include 'dashboard/map.html' %}
+                            {% block content_map %}
+                            {% endblock %}
+                            <!-- end of graph -->
+
+                        </div>
+                        <div class="col-xl-6 col-12 mb-4 mb-xl-0">
+                            <!--for graph-->
+                            {% include 'dashboard/charts.html' %}
+                            {% block content_c1 %}
+
+                            {% endblock %}
+
+                            <!-- end of graph -->
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+    <section>
+        <div class="container-fluid">
+
+            <div class="row mb-5">
+                <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+
+                    <div class="row align-items-center">
+                        <div class="col-xl-12 col-12 mb-4 mb-xl-0">
+                            {% include 'dashboard/table2.html' %}
+                            {% block content_t2 %}
+
+
+                            {% endblock %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container-fluid">
+
+            <div class="row mb-5">
+                <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+
+                    <div class="row align-items-center">
+                        <div class="col-xl-6 col-12 mb-4 mb-xl-0">
+                            <!--for graph-->
+                            {% include 'dashboard/tasklist.html' %}
+                            {% block content_tasklist %}
+                            {% endblock %}
+                            <!-- end of graph -->
+
+                        </div>
+                        <div class="col-xl-6 col-12 mb-4 mb-xl-0">
+                            <!--for graph-->
+                            {{bar|safe}}
+
+                            
+
+                            <!-- end of graph -->
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+    <section>
+        <section>
+        <div class="container-fluid">
+
+            <div class="row mb-5 px-5 mx-5">
+                <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+                    <div class="row align-items-center">
+                        <div class="col-xl-12 col-12 mb-4 mb-xl-0">
+                            <!--for graph-->
+                            {% include 'dashboard/quickpost.html' %}
+                            {% block content_quickpost %}
+                            {% endblock %}
+
+                            
+                            <!-- end of graph -->
+
+                        </div>
+                        
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+    <footer>
+        {% include 'dashboard/footer.html' %}
+        {% block content_foot %}
+        {% endblock %}
+    </footer>
+
+<!-- JS STARTED AJAX CALLS -->
+<script>
+    function loadDoc() {
+        blur = document.getElementById("remF");
+        profileblur = document.getElementById("remP");
+        navblur = document.getElementById("remN");
+        blur.classList.add("blur");
+        navblur.classList.add("blur");
+        profileblur.classList.add("blur");
+        show = document.getElementById("show");
+        show.style.display = "block";
+        var xhttp = new XMLHttpRequest();
+        url = '/scrapper'
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                if (this.responseText == 'True') {
+                    alert("Success")
+                    location.replace('/')
+                }
+                else {
+                    alert("Failed ")
+                    location.replace('/')
+
+                }
+            }
+        };
+        xhttp.open("GET", url, true);
+        xhttp.send();
+    }
+</script>
+
+</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+</html>

@@ -13,4 +13,9 @@ urlpatterns=[
     path('dashboard/',views.dashboard,name='dashboard'),
     path('post/',views.post,name='post'),
     path("scrapper/",views.scrapper, name="scrapper"),
+    path("analytics/",views.analytics, name="analytics"),
+    path("charts/",views.charts, name="charts"),
+    path("tables/",views.tables, name="tables"),
+    path("map/",views.map, name="map"),
+    path("companies/",views.companies, name="companies"),
 ]
