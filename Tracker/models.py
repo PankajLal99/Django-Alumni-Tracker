@@ -15,7 +15,7 @@ class Profile(models.Model):
     Current_Location=models.CharField(max_length=30,null=True)
     # Work_profile=models.CharField(max_length=30,null=True,blank=True)
     # Connection=models.CharField(max_length=10,null=True,blank=True)
-    # Company=models.CharField(max_length=50,null=True,blank=True)
+    Company=models.CharField(max_length=50,null=True,blank=True)
     # Joining=models.CharField(max_length=20,null=True,blank=True)
     # College=models.CharField(max_length=50,null=True)
     # Degree=models.CharField(max_length=20,null=True)

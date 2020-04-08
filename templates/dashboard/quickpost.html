@@ -1,50 +1,53 @@
 {% load static %}
 {% block content_quickpost %}
 
-    <div class="card rounded">
-        <div class="card-body">
-            <h5 class="text-muted text-center mb-4">Quick Status Post</h5>
-            <ul class="list-inline text-center py-3">
-                <li class="list-inline-item mr-4">
-                    
-                        <i class="fas fa-pencil-alt text-success"></i>
-                        <span class="h6 text-muted">Status</span>
-                   
-                </li>
-                <li class="list-inline-item mr-4">
-                   
-                        <i class="fas fa-camera text-info"></i>
-                        <span class="h6 text-muted">Photo</span>
-                    
-                </li>
-            </ul>
-            <form>
-                <div class="form-group">
-                    <button type="button"
-                        class="btn btn-block text-uppercase font-weight-bold text-light bg-info py-2 mb-5">Create
-                        Post</button>
-                </div>
-            </form>
-            <div class="row">
-                <div class="col-6">
-                    <div class="card bg-light">
-                        <i class="far fa-calendar-alt fa-8x text-warning d-block m-auto py-3"></i>
-                        <div class="card-body">
-                            <p class="card-text text-center font-weight-bold text-uppercase">{{date}}</p>
-                        </div>
+<div class="card rounded">
+    <div class="card-body">
+        <h5 class="text-muted text-center mb-4">Quick Status Post</h5>
+        <ul class="list-inline text-center py-3">
+            <li class="list-inline-item mr-4">
+
+                <i class="fas fa-pencil-alt text-success"></i>
+                <span class="h6 text-muted">Status</span>
+
+            </li>
+            <li class="list-inline-item mr-4">
+
+                <i class="fas fa-camera text-info"></i>
+                <span class="h6 text-muted">Photo</span>
+
+            </li>
+        </ul>
+
+        <div class="form-group">
+
+            <a href="{% url 'post' %}"
+                class="btn btn-block text-uppercase font-weight-bold text-light bg-info py-2 mb-5">
+                Create
+                Post
+            </a>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="card bg-light">
+                    <i class="far fa-calendar-alt fa-8x text-warning d-block m-auto py-3"></i>
+                    <div class="card-body">
+                        <p class="card-text text-center font-weight-bold text-uppercase">Date : {{date}}</p>
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="card bg-light">
-                        <i class="far fa-clock fa-8x text-danger d-block m-auto py-3"></i>
-                        <div class="card-body">
-                            <p class="card-text text-center font-weight-bold text-uppercase">{{time}}</p>
-                        </div>
+            </div>
+            <div class="col-6">
+                <div class="card bg-light">
+                    <i class="far fa-clock fa-8x text-danger d-block m-auto py-3"></i>
+                    <div class="card-body">
+                        <p class="card-text text-center font-weight-bold text-uppercase">Time : {{time}}</p>
                     </div>
                 </div>
             </div>
         </div>
-    
+    </div>
+
 
 </div>
 {% endblock %}
