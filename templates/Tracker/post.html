@@ -1,0 +1,27 @@
+{% extends "Tracker/base.html" %}
+{% block title %}Dashboard - Blog Post{% endblock title %}
+
+{% block body %}
+
+{% include "Tracker/navbar.html" %}
+    
+<div class="p-3 mt-3 rounded container" style="background-color: white;">
+    <h1>POST PAGE</h1>
+    <hr style="border: 2px #3931af solid;">
+    <form action="" method="POST">
+        {% csrf_token %}
+    <div class="form-group">
+        <label for="title">Title : </label>
+    <input type="text" class="form-control" name="title" id="title" placeholder="Enter Title">
+        <label for="contentplace">Content : </label>
+    <textarea class="form-control" name="content" id="contentplace" rows="3"></textarea>
+        <label for="imgpost">Upload image : </label>
+        <input type="file" name="image" class="form-control-file" id="imgpost">
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Submit</button>
+      
+</form>
+</div>
+{% endblock body %}
+

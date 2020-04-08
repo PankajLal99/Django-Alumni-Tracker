@@ -63,21 +63,26 @@ def signup(request):
 @login_required(login_url='login')
 def userpage(request):
     information=request.user.profile
+    data=Scrapper_Data.objects.get(profile=information)
     context={
-        'info':information
+        'info':information,
+        'data':data,
     }
     return render(request,'Tracker/userpage.html',context)    
 
 @login_required(login_url='login')
 def profile(request,pk):
     profile_info=Profile.objects.get(id=pk)
+    data=Scrapper_Data.objects.get(profile=profile_info)
     context={
         'info':profile_info,
+        'data':data,
     }
     return render(request,'Tracker/profile.html',context)
 
 @login_required(login_url='login')
 def info(request):
+    blog=Blog.objects.all().order_by('-created_on')[0:3]
     #pdata is personal data
     data=Profile.objects.all()
     for i in data:
@@ -89,7 +94,8 @@ def info(request):
     context={
         'data':data,
         'search':search,
-    }
+        'blogs':blog,
+        }
     return render(request,'Tracker/info.html',context)
 
 #Create and Update = CRUD
@@ -138,3 +144,14 @@ def scrapper(request):
     except:
         obj.close()
         return HttpResponse('False') 
+
+@login_required(login_url='login')
+@admin_only
+def post(request):
+    if request.method=='POST':
+        title= request.POST.get('title','')
+        content= request.POST.get('content','')
+        img= request.FILES.get('image')
+        Blog.objects.create(title=title,content=content,post_img=img)
+        return redirect('dashboard')
+    return render(request,'Tracker/post.html')

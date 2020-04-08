@@ -8,106 +8,135 @@
 <!-- Body -->
 {% load widget_tweaks %}
 {% load static %}
-    <div class="p-3 m-3 rounded" style="background-color: white;" id="remF">
-        <h4 class="mb-3">Filter Profiles</h4>
-        <form action="" method="get">
-            <div class="form-row justify-content-center">
-                <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    Roll No. {{search.form.RollNo|add_class:"form-control"|attr:"placeholder:Enter Roll No"}}</span>
-                </div>
-                <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    Year {{search.form.Year |attr:"placeholder:Year"|add_class:"form-control"}}
-                </div>
-                <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    Branch {{search.form.Branch |attr:"placeholder:Branch"|add_class:"form-control"}}
-                </div>
-                <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    Company {{search.form.Company |attr:"placeholder:Company"|add_class:"form-control"}}
-                </div>
-                <div class="form-group col-xs-3 col-sm-2 col-md-2 col-lg-2 mt-4 text-center">
-                    <button type="submit" class="btn btn-outline-success">Search</button>
-                </div>
+<div class="p-3 m-3 rounded" style="background-color: white;" id="remF">
+    <h4 class="mb-3">Filter Profiles</h4>
+    <form action="" method="get">
+        <div class="form-row justify-content-center">
+            <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                Roll No. {{search.form.RollNo|add_class:"form-control"|attr:"placeholder:Enter Roll No"}}</span>
             </div>
-        </form>
-    </div>
-
-
-    
-        <div id="show" class="bg rounded mx-auto my-auto">
-            <p style="margin-left: 50px;" id="promsg">Please Wait While We Update the profiles</p>
-            <img src="{% static 'image/loading.gif' %}" id="probar" style="display: block;margin:auto;" alt="Loading BAR">   
+            <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                Year {{search.form.Year |attr:"placeholder:Year"|add_class:"form-control"}}
+            </div>
+            <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                Branch {{search.form.Branch |attr:"placeholder:Branch"|add_class:"form-control"}}
+            </div>
+            <div class="form-group col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                Company {{search.form.Company |attr:"placeholder:Company"|add_class:"form-control"}}
+            </div>
+            <div class="form-group col-xs-3 col-sm-2 col-md-2 col-lg-2 mt-4 text-center">
+                <button type="submit" class="btn btn-outline-success">Search</button>
+            </div>
         </div>
-    
+    </form>
+</div>
 
-    <div class="row m-3 justify-content-center try" id="remP">
-        <div class="col-md-8 col-xl-8 col-lg-8 col-xs-8 rounded mr-5" style="background-color: white;">
-            <div class="row">
-                <!-- loop -->
-                {% for info in data %}
-                <div class="col col-xs-3 col-sm-3 col-md-4 col-lg-4 col-xl-4 mb-3 mt-3">
-                    <div class="card h-100">
-                        <div class="row">
-                            <div class="col text-center">
-                                <img src="{{info.Image.url}}" alt="Profile" class="rounded-circle align-middle"
-                                    style="width: 150px;height: 150px;">
-                                <h5 class="card-title m-2">{{info.user.first_name}} {{info.user.last_name}}</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col mt-3 ml-2">
-                                <p class="card-text"><span class="font-weight-bold">Year :</span> {{info.Year}}</p>
-                                <p class="card-text"><span class="font-weight-bold">Branch :</span> {{info.Branch}}</p>
-                                <p class="card-text"><span class="font-weight-bold">Company :</span> {{info.Company}}
-                                </p>
-                            </div>
 
-                            <div class="col-1 m-1">
-                                {% if request.user.is_staff %}
-                                <a href="{% url 'delete' info.id %}"
-                                    onclick="return confirm('Are you sure you want to delete this Profile?');"
-                                    class="close" aria-label="Close"> <span aria-hidden="true">&times;</span></a>
-                                {% endif %}
-                            </div>
+
+<div id="show" class="bg rounded mx-auto my-auto">
+    <p style="margin-left: 50px;" id="promsg">Please Wait While We Update the profiles</p>
+    <img src="{% static 'image/loading.gif' %}" id="probar" style="display: block;margin:auto;" alt="Loading BAR">
+</div>
+
+
+<div class="row m-3 justify-content-center try" id="remP">
+    <div class="col-md-8 col-xl-8 col-lg-8 col-xs-8 rounded mr-5" style="background-color: white;">
+        <h3 class="text-center mb-3">Profiles</h3>
+
+        <div class="row">
+
+            {% if not data %}
+            <h4 class="text-center mb-3">No Profiles Found</h4>
+            {% else %}
+            <!-- loop -->
+            {% for info in data %}
+
+            <div class="col col-xs-3 col-sm-3 col-md-4 col-lg-4 col-xl-4 mb-3 mt-3">
+                <div class="card h-100">
+                    <div class="row">
+                        <div class="col text-center">
+                            <img src="{{info.Image.url}}" alt="Profile" class="rounded-circle align-middle"
+                                style="width: 150px;height: 150px;">
+                            <h5 class="card-title m-2">{{info.user.first_name}} {{info.user.last_name}}</h5>
                         </div>
-                        <div class="row justify-content-end">
-                            <div class="col-5 m-2">
-                                <a href="{% url 'profile' info.id %}"
-                                    class=" col btn btn-sm btn-info float-right m-1">Show More</a>
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mt-3 ml-2">
+                            <p class="card-text"><span class="font-weight-bold">Year :</span> {{info.Year}}</p>
+                            <p class="card-text"><span class="font-weight-bold">Branch :</span> {{info.Branch}}</p>
+                        </div>
+
+                        <div class="col-1 m-1">
+                            {% if request.user.is_staff %}
+                            <a href="{% url 'delete' info.id %}"
+                                onclick="return confirm('Are you sure you want to delete this Profile?');" class="close"
+                                aria-label="Close"> <span aria-hidden="true">&times;</span></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row justify-content-end">
+                        <div class="col-5 m-2">
+                            <a href="{% url 'profile' info.id %}" class=" col btn btn-sm btn-info float-right m-1">Show
+                                More</a>
                         </div>
                     </div>
                 </div>
-                {% endfor %}
-                <!-- loop end -->
             </div>
+            {% endfor %}
+            <!-- loop end -->
+            {% endif %}
         </div>
     </div>
+    <div class="col-md-3 col-xl-3 col-lg-3 col-xs-3 rounded" style="background-color: white;">
+        <h3 class="text-center mb-3">Post</h3>
+        <!-- if else -->
+        {% if not blogs  %}
+        <h4 class="text-center mb-3">No posts found</h4>
+        {% else %}
+        <!-- for loop -->
+        {% for blog in blogs %}
+
+        <div class="col mb-4">
+            <div class="card">
+                <img src={{blog.post_img.url}} class="card-img-top" alt="image" height="110px">
+                <h5 class="card-title">{{blog.title}}</h5>
+                <p class="card-text">{{blog.content}}</p>
+            </div>
+        </div>
+
+        {% endfor %}
+        <!-- end for -->
+        {% endif %}
+
+
+    </div>
+</div>
 </div>
 <!-- Bodyend -->
 
 <!-- JS STARTED AJAX CALLS -->
 <script>
     function loadDoc() {
-        blur=document.getElementById("remF");
-        profileblur=document.getElementById("remP");
-        navblur=document.getElementById("remN");
+        blur = document.getElementById("remF");
+        profileblur = document.getElementById("remP");
+        navblur = document.getElementById("remN");
         blur.classList.add("blur");
         navblur.classList.add("blur");
         profileblur.classList.add("blur");
-        show=document.getElementById("show");
-        show.style.display="block";
+        show = document.getElementById("show");
+        show.style.display = "block";
         var xhttp = new XMLHttpRequest();
         url = '/scrapper'
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                if (this.responseText == 'True'){
+                if (this.responseText == 'True') {
                     alert("Success")
                     location.replace('/')
                 }
-                else{
+                else {
                     alert("Failed ")
                     location.replace('/')
-                    
+
                 }
             }
         };
