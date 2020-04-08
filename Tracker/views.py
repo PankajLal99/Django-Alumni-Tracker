@@ -126,7 +126,6 @@ def dashboard(request):
     return render(request,'Tracker/dashboard.html')
 
 @login_required(login_url='login')
-@admin_only
 def scrapper(request):
     obj = linkedIn()
     l=Profile.objects.all()
