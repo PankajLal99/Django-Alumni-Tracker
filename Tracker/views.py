@@ -93,8 +93,7 @@ def profile(request,pk):
 @login_required(login_url='login')
 def info(request):
     blog=Blog.objects.filter(status=1).order_by('-created_on')[0:3]
-    print(blog)
-    #pdata is personal data
+    
     data=Profile.objects.all()
     for i in data:
         if i.RollNo is None and not request.user.is_staff:
