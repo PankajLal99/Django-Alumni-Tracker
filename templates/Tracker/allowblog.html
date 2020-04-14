@@ -1,0 +1,48 @@
+{% extends "Tracker/base.html" %}
+{% block style %}
+    input{
+        outline: none;
+        border: none;
+    }   
+{% endblock style %}
+
+{% block title %}Alumni Tracker - Allow Blogs{% endblock title %}
+
+{% block body %}
+
+{% include "Tracker/navbar.html" %}
+
+<div class="p-3 mt-3 rounded container" style="background-color: white;">
+    <h1 class="mb-3">Requested Blogs</h1>
+    {% if not blogs %}
+    <hr>
+    <h4 class="text-center mb-3">No Request found</h4>
+    {% else %}
+    
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Post Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        <!-- for loop -->
+        <form action="" method="POST"> 
+            {% csrf_token %}
+        {% for blog in blogs %}
+        <tr>
+            <td><input type="text" name="title" value="{{blog.title}}" readonly></td>
+            <td>{{blog.author}}</td>
+            <td><button type="submit" class="btn btn-outline-info">Post</button></td>
+          </tr>
+        
+        {% endfor %}
+        <!-- end for -->
+        </form>
+    </tbody>
+
+    </div>
+    {% endif %}
+{% endblock body %}

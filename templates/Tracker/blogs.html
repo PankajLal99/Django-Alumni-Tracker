@@ -1,0 +1,35 @@
+{% extends "Tracker/base.html" %}
+{% block title %}Alumni Tracker - Blogs{% endblock title %}
+
+{% block body %}
+
+{% include "Tracker/navbar.html" %}
+
+<div class="p-3 mt-3 rounded container" style="background-color: white;">
+    <h1>Blogs</h1>
+    <hr>
+    {% if not blogs %}
+    <h4 class="text-center mb-3">No posts found</h4>
+    {% else %}
+    <div class="row row-cols-1 row-cols-md-3">
+        <!-- for loop -->
+        {% for blog in blogs %}
+        <div class="col mb-4">
+            <div class="card">
+                <img src={{blog.image.url}} class="card-img-top" alt="Blog image">
+                <div class="card-body">
+                    <h5 class="card-title">{{blog.title}}</h5>
+                    <p class="card-text">{{blog.content|slice:"0:20"}}.....</p>
+                    <a href="{% url 'showblog' blog.id %}" class="btn btn-primary btn-sm mb-2">Read More</a>
+                    <div class="card-footer">
+                        <small class="text-muted">{{blog.created_on}}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% endfor %}
+        <!-- end for -->
+    </div>
+    {% endif %}
+{% endblock body %}

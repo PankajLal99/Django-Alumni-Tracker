@@ -1,0 +1,21 @@
+{% extends "Tracker/base.html" %}
+{% block title %}Alumni Tracker - Blogs{% endblock title %}
+
+{% block body %}
+
+{% include "Tracker/navbar.html" %}
+    
+<div class="p-3 mt-3 rounded container" style="background-color: white;">
+    
+    <img src={{blog.image.url}} alt="blog bg" class="mx-auto" style="height:300px;display: block;">
+    <h1>Blog - {{blog.title}}</h1>
+    <p>Author - {{blog.author}}</p>
+    <p>Created on - {{blog.created_on}}</p>
+    <hr>
+    <p>
+        {{blog.content}}
+    </p>
+
+</div>
+{% endblock body %}
+

@@ -3,58 +3,122 @@
 <html>
 
 <head>
-    <title>Alumni Tracker - Dashboard</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <title>Alumni Tracker - Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"
-        integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe"
-        crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"
+    integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe"
+    crossorigin="anonymous"></script>
 </head>
 
 <body>
-    {%  include 'dashboard/navbar.html' %}
-    <div class="container-fluid">
-        {% block content %}
-
-
-
-        {% endblock %}
-    </div>
-    <section>
+  {%  include 'dashboard/navbar.html' %}
+  <div class="container-fluid">
+    <nav class="navbar navbar-expand-md navbar-light">
+      <button class="navbar-toggler ml-auto mb-2 bg-light" type="button" data-toggle="collapse" data-target="#myNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="myNavbar">
         <div class="container-fluid">
-            {% include 'dashboard/tables.html' %}
+          <div class="row">
+            <!-- sidebar -->
+            <div class="col-xl-2 col-lg-3 col-md-4 sidebar fixed-top">
 
-            {% block content_t %}
+              <div class="bottom-border my-3">
+                <p class="aligncenter">
+                  <img src="{% static 'image/logo.png' %}" width="70" class=" mr-3">
+                </p>
 
+              </div>
+              <ul class="navbar-nav flex-column mt-4">
+                <li class="nav-item"><a href="{% url 'dashboard' %}" class="nav-link text-white p-3 mb-2 "><i
+                      class="fas fa-home text-light fa-lg mr-3"></i>Dashboard</a></li>
 
-            {% endblock %}
+                <!-- <li class="nav-item"><a onclick="loadDoc()" class="nav-link text-white p-3 mb-2 sidebar-link"><i
+                                      class="fas fa-sync-alt text-light fa-lg mr-3"></i>Scrapping</a></li> -->
+                <li class="nav-item"><a href="{% url 'analytics' %}"
+                    class="nav-link text-white p-3 mb-2 sidebar-link "><i
+                      class="fas fa-chart-line text-light fa-lg mr-3"></i>Analytics</a></li>
+                <li class="nav-item"><a href="{% url 'charts' %}" class="nav-link text-white p-3 mb-2 sidebar-link"><i
+                      class="fas fa-chart-bar text-light fa-lg mr-3"></i>Charts</a></li>
+                <li class="nav-item"><a href="{% url 'tables' %}"
+                    class="nav-link text-white p-3 mb-2 sidebar-link current"><i
+                      class="fas fa-table text-light fa-lg mr-3"></i>Tables</a></li>
+                <li class="nav-item"><a href="{% url 'companies' %}"
+                    class="nav-link text-white p-3 mb-2 sidebar-link"><i
+                      class="fas fa-file-alt text-light fa-lg mr-3"></i>Companies</a></li>
+                <li class="nav-item"><a href="{% url 'map' %}" class="nav-link text-white p-3 mb-2 sidebar-link"><i
+                      class="fas fa-map text-light fa-lg mr-3"></i>Map</a></li>
+                <li class="nav-item"><a href="{% url 'info' %}" class="nav-link text-white p-3 mb-2 sidebar-link"><i
+                      class="fas fa-home text-light fa-lg mr-3"></i>Go Home</a></li>
+              </ul>
+            </div>
+            <!-- end of sidebar -->
+
+            <!-- top-nav -->
+            <div class="col-xl-10 col-lg-9 col-md-8 ml-auto bg-dark fixed-top py-2 top-navbar ">
+              <div class="row align-items-center ">
+                <div class="col-md-11">
+                  <h4 class="text-light text-uppercase mb-0">{{name}}</h4>
+                </div>
+
+                <div class="col-md-1">
+                  <ul class="navbar-nav">
+
+                    <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link"><i
+                          class="fas fa-sign-out-alt text-danger fa-lg"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!--end of top-nav -->
+
+          </div>
         </div>
-    </section>
+      </div>
+
+    </nav>
+  </div>
+  <section>
+    <div class="container-fluid">
+      <div class="container-fluid">
+
+        <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+          <br>
+
+          {% include 'dashboard/tables.html' %}
+
+          {% block content_t %}
+
+
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+
+  </section>
 
 
 
-    <footer>
-        {% include 'dashboard/footer.html' %}
-        {% block content_foot %}
-        {% endblock %}
-    </footer>
+  <footer>
+    {% include 'dashboard/footer.html' %}
+    {% block content_foot %}
+    {% endblock %}
+  </footer>
 
 </body>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"></script>
+  integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"></script>
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 </html>

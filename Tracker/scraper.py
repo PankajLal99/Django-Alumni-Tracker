@@ -8,7 +8,7 @@ class linkedIn:
     def __init__(self):
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument('--headless')
-        self.browser = webdriver.Chrome("C:/Users/lalpa/AppData/Local/Google/Chrome/Application/chromedriver.exe",chrome_options=chrome_options)
+        self.browser = webdriver.Chrome("C:/Users/Khushboo/AppData/Local/Google/Chrome/Application/chromedriver",chrome_options=chrome_options)
         #self.browser = webdriver.Chrome("/home/pankaj/chromedriver",chrome_options=chrome_options)
 
 

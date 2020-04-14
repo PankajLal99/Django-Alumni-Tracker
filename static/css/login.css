@@ -2,14 +2,6 @@
     --input-padding-x: 1.5rem;
     --input-padding-y: .75rem;
   }
-  
-  body {
-    /* background: -webkit-linear-gradient(left, #3931af, #00c6ff); */
-    background: -webkit-linear-gradient( #08126B, black);
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
 
   .img_center{
     display: block;

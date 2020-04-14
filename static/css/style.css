@@ -1,6 +1,8 @@
+{% load static %}
 body{
     font-family: Arial, Helvetica, sans-serif;
     background-color: #fff;
+    background-size: auto;
 }
 
 
@@ -17,6 +19,12 @@ body{
 }
 .bottom-border{
     border-bottom: 2px groove #fec722;
+}
+.btn {
+    background: linear-gradient( #08126B, black);
+
+    
+
 }
 
 .aligncenter {
@@ -84,7 +92,48 @@ body{
     
     
 }
+.svg-inline--fa.fa-stack-1x {
+    height: 2em;
+    width: 1em;
+}
+.fa-xs {
+    font-size: .50em;
+}
 
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    margin-bottom: -15px;
+    
+    box-shadow: 0 0 black;
+}
+.fa-stack {
+    display: inline-block;
+    height: 1.5em;
+    position: relative;
+    width: 1.5em;
+    box-shadow: 0 0 black;
+}
+
+#ex4 .p1[data-count]:after{
+    position:absolute;
+    right:10%;
+    top:8%;
+    content: attr(data-count);
+    font-size:40%;
+    padding:.2em;
+    border-radius:50%;
+    line-height:1em;
+    color: white;
+    background:rgba(255,0,0,.85);
+    text-align:center;
+    min-width: 1em;
+    //font-weight:bold;
+  }
 
 .icon-bullet::after{
     content: "";
@@ -134,9 +183,9 @@ body{
     position:absolute;
     }
 
-footer{
+.foot{
     
-    
+
     background-color:  black;
 }
 

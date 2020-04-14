@@ -1,5 +1,6 @@
 {% block content_t %}
 
+
 <h3 class="text-muted text-center mb-3">Student Information</h3>
 <table class="table table-dark table-hover text-center">
 
@@ -32,46 +33,17 @@
             {% endfor %}
 
 </table>
-{% else %}
-<th>No Records</th>
+        {% else %}
+            <th>No Records</th>
+        {% endif %}
+
+
+{% if d.paginator.num_pages > 1 %}
+
+<!-- start -->
+{% include 'dashboard/_pagination.html' with d=d %}
+<!-- end -->
+
 {% endif %}
-<!-- pagination -->
-<nav>
-    <ul class="pagination justify-content-center">
-        <li class="page-item">
-            <a href="#" class="page-link py-2 px-3">
-                <span>Previous</span>
-            </a>
-        </li>
-        <li class="page-item active">
-            <a href="#" class="page-link py-2 px-3">
-                1
-            </a>
-        </li>
-        <li class="page-item">
-            <a href="#" class="page-link py-2 px-3">
-                2
-            </a>
-        </li>
-        <li class="page-item">
-            <a href="#" class="page-link py-2 px-3">
-                3
-            </a>
-        </li>
-        <li class="page-item">
-            <a href="#" class="page-link py-2 px-3">
-                <span>Next</span>
-            </a>
-        </li>
-    </ul>
-</nav>
-<!-- end of pagination -->
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- end of table -->
 
 {% endblock %}
-

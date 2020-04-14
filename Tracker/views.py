@@ -22,6 +22,7 @@ import csv
 from pandas import DataFrame as df
 from datetime import datetime
 from datetime import date
+from django.core.paginator import Paginator
 # Create your views here.
 
 @unauthenticated_user
@@ -91,7 +92,8 @@ def profile(request,pk):
 
 @login_required(login_url='login')
 def info(request):
-    blog=Blog.objects.all().order_by('-created_on')[0:3]
+    blog=Blog.objects.filter(status=1).order_by('-created_on')[0:3]
+    print(blog)
     #pdata is personal data
     data=Profile.objects.all()
     for i in data:
@@ -128,6 +130,75 @@ def deleteprofile(request,pk):
     profile_info=Profile.objects.get(id=pk)
     profile_info.delete()
     return redirect('info')
+
+
+@login_required(login_url='login')
+@admin_only
+def scrapper(request):
+    obj = linkedIn()
+    l=Profile.objects.all()
+    try:
+        obj.login()
+        for i in l:
+            data=obj.scrap(i.linkedIn_Link) 
+            Scrapper_Data.objects.update(profile=i,name=data[1],
+            profile_title=data[2],location=data[3],connection=data[4],
+            experience=data[7],job_title=data[5],joining_date=data[6]
+            ,college_name=data[8],degree_name=data[9],stream=data[10],
+            degree_year=data[11])
+        obj.close()
+        return HttpResponse('True')
+    except:
+        obj.close()
+        return HttpResponse('False') 
+
+@login_required(login_url='login')
+def post(request):
+    if request.method=='POST':
+        if not request.user.is_staff:
+            title= request.POST.get('title','')
+            content= request.POST.get('content','')
+            img= request.FILES.get('image','static/images/bg.jpg')
+            Blog.objects.create(title=title,content=content,image=img,author=request.user)
+            messages.warning(request,"Your Request Has been Sent !! ")
+            return redirect('info')
+        else:
+            title= request.POST.get('title','')
+            content= request.POST.get('content','')
+            img= request.FILES.get('image','static/images/bg.jpg')
+            Blog.objects.create(title=title,content=content,image=img,status=1)
+            return redirect('dashboard')
+    return render(request,'Tracker/post.html')
+
+@login_required(login_url='login')
+def blog(request):
+    data=Blog.objects.filter(status=1).order_by('-created_on')
+    context={
+        'blogs':data
+    }
+    return render(request,'Tracker/blogs.html',context)
+@login_required(login_url='login')
+def showblog(request,pk):
+    data=Blog.objects.get(id=pk)
+    context={
+        'blog':data,
+    }
+    return render(request,'Tracker/showblog.html',context)
+
+def allowblog(request):
+    data=Blog.objects.filter(status=0)
+    if request.method == 'POST':
+        title=request.POST['title']
+        Blog.objects.filter(title=title).update(status=1)
+        return redirect('blog')
+    context={
+        'blogs':data,
+    }
+    return render(request,'Tracker/allowblog.html',context)
+
+
+# ############################***************************************##########################################********************************************* #
+
 
 @login_required(login_url='login')
 @admin_only
@@ -257,42 +328,17 @@ def dashboard(request):
 
 
     # Progress bar
+    paginator = Paginator(d, 5)
+    page = request.GET.get('page')
+    d = paginator.get_page(page)
+
+    count1 = Blog.objects.filter(status=0).count()
+
     
     
-    D={'d':d,'c':ce,'pie':div,'map':div2,'time':current_time,'date':today,'cities':count,'company':comp,'bar':div3}
+    D={'d':d,'c':ce,'pie':div,'map':div2,'time':current_time,'date':today,'cities':count,'company':comp,'bar':div3,'name':'Dashboard','count':count1}
     return render(request,'dashboard/home.html',D)
 
-
-@login_required(login_url='login')
-@admin_only
-def scrapper(request):
-    obj = linkedIn()
-    l=Profile.objects.all()
-    try:
-        obj.login()
-        for i in l:
-            data=obj.scrap(i.linkedIn_Link) 
-            Scrapper_Data.objects.update(profile=i,name=data[1],
-            profile_title=data[2],location=data[3],connection=data[4],
-            experience=data[7],job_title=data[5],joining_date=data[6]
-            ,college_name=data[8],degree_name=data[9],stream=data[10],
-            degree_year=data[11])
-        obj.close()
-        return HttpResponse('True')
-    except:
-        obj.close()
-        return HttpResponse('False') 
-
-@login_required(login_url='login')
-@admin_only
-def post(request):
-    if request.method=='POST':
-        title= request.POST.get('title','')
-        content= request.POST.get('content','')
-        img= request.FILES.get('image')
-        Blog.objects.create(title=title,content=content,post_img=img)
-        return redirect('dashboard')
-    return render(request,'Tracker/post.html')
 
 @login_required(login_url='login')
 @admin_only
@@ -300,7 +346,7 @@ def analytics(request):
     d=Profile.objects.all()
     ce=Profile.objects.all()
 
-    context={'d':d,'c':ce}
+    context={'d':d,'c':ce,'name':'Analytics'}
     return render(request,'sidebar_template/analytics.html',context)
 
 
@@ -367,7 +413,7 @@ def charts(request):
 
 
 
-    context={'pie':div,'bar':div3}
+    context={'pie':div,'bar':div3,'name':'Charts'}
     return render(request,'sidebar_template/charts.html',context)
 
 
@@ -375,20 +421,24 @@ def charts(request):
 @login_required(login_url='login')
 @admin_only
 def tables(request):
-    d=Profile.objects.all()
-    ce=Profile.objects.all()
+    data=Profile.objects.all()
+    
+    paginator = Paginator(data, 5)
+    page = request.GET.get('page')
+    d = paginator.get_page(page)
 
-    context={'d':d,'c':ce}
+
+    context={'d':d,'name':'Tables'}
     return render(request,'sidebar_template/tables.html',context)
 
 @login_required(login_url='login')
 @admin_only
 def companies(request):
-    d=Profile.objects.all()
-    ce=Profile.objects.all()
+  
+    d = Profile.objects.values('Company')
 
-    context={'d':d,'c':ce}
-    return render(request,'sidebar_template/comapny.html',context)
+    context={'d':d,'name':'Companies'}
+    return render(request,'sidebar_template/company.html',context)
 
 
 @login_required(login_url='login')
@@ -430,7 +480,7 @@ def map(request):
     us_cities = pd.read_csv("static/csv/pro.csv")
     # figure plotting
     fig = px.scatter_mapbox(us_cities, lat="lat", lon="lng", hover_name="city", hover_data=[
-                            "city"], color_discrete_sequence=["red"], zoom=3, height=500)
+                            "city"], color_discrete_sequence=["red"], zoom=3, height=800)
 
     fig.update_layout(
         mapbox_style="white-bg",
@@ -449,5 +499,7 @@ def map(request):
 
  
 
-    context={'map':div2}
+    context={'map':div2,'name':'Map'}
     return render(request,'sidebar_template/map.html',context)
+
+

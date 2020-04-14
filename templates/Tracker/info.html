@@ -8,6 +8,8 @@
 <!-- Body -->
 {% load widget_tweaks %}
 {% load static %}
+
+
 <div class="p-3 m-3 rounded" style="background-color: white;" id="remF">
     <h4 class="mb-3">Filter Profiles</h4>
     <form action="" method="get">
@@ -31,7 +33,11 @@
     </form>
 </div>
 
-
+{% for message in messages %}
+<div class="container alert alert-primary text-center" role="alert">
+  {{message}}
+</div>
+{% endfor %}
 
 <div id="show" class="bg rounded mx-auto my-auto">
     <p style="margin-left: 50px;" id="promsg">Please Wait While We Update the profiles</p>
@@ -97,10 +103,11 @@
         {% for blog in blogs %}
 
         <div class="col mb-4">
-            <div class="card">
-                <img src={{blog.post_img.url}} class="card-img-top" alt="image" height="110px">
+            <div class="card-body">
+                <img src={{blog.image.url}} class="card-img-top" alt="image" height="110px">
                 <h5 class="card-title">{{blog.title}}</h5>
-                <p class="card-text">{{blog.content}}</p>
+                <p class="card-text">{{blog.content|slice:"0:20"}}.....</p>
+                <a href="{% url 'showblog' blog.id %}" class="btn btn-primary btn-sm mb-2">Read More</a>
             </div>
         </div>
 
