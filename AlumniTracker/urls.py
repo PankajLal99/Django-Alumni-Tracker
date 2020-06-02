@@ -19,6 +19,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
+
+admin.site.site_header = "Alumni Tracker Admin Panel"
+admin.site.site_title = "Alumni Tracker Admin Portal"
+admin.site.index_title = "Welcome to Admin Portal"
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('Tracker.urls')),

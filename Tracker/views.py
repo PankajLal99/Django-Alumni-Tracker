@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from .models import *
 from .forms import *
 from .filters import *
+import time
 #login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -83,6 +84,8 @@ def userpage(request):
 @login_required(login_url='login')
 def profile(request,pk):
     profile_info=Profile.objects.get(id=pk)
+    print("*%"*100)
+    print(profile_info)
     data=Scrapper_Data.objects.get(profile=profile_info)
     context={
         'info':profile_info,
@@ -131,6 +134,7 @@ def deleteprofile(request,pk):
     return redirect('info')
 
 
+
 @login_required(login_url='login')
 @admin_only
 def scrapper(request):
@@ -139,17 +143,17 @@ def scrapper(request):
     try:
         obj.login()
         for i in l:
-            data=obj.scrap(i.linkedIn_Link) 
-            Scrapper_Data.objects.update(profile=i,name=data[1],
-            profile_title=data[2],location=data[3],connection=data[4],
-            experience=data[7],job_title=data[5],joining_date=data[6]
-            ,college_name=data[8],degree_name=data[9],stream=data[10],
-            degree_year=data[11])
+            print("$#"*20)
+            print("******************",i)
+            data=obj.scrap(i.linkedIn_Link)
+            Scrapper_Data.objects.filter(profile=i).update(name=data[1],profile_title=data[2],location=data[3],connection=data[4],   experience=data[7],job_title=data[5],joining_date=data[6],college_name=data[8],degree_name=data[9],stream=data[10],degree_year=data[11])
+            time.sleep(5)
         obj.close()
         return HttpResponse('True')
     except:
         obj.close()
-        return HttpResponse('False') 
+        return HttpResponse('False')
+    
 
 @login_required(login_url='login')
 def post(request):

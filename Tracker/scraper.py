@@ -3,15 +3,18 @@ import requests, time, random
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+#fire fox
 
 class linkedIn:
     def __init__(self):
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument('--headless')
-        self.browser = webdriver.Chrome("C:/Users/Khushboo/AppData/Local/Google/Chrome/Application/chromedriver",chrome_options=chrome_options)
-        #self.browser = webdriver.Chrome("/home/pankaj/chromedriver",chrome_options=chrome_options)
+        self.browser = webdriver.Chrome("C:/Users/lalpa/AppData/Local/Google/Chrome/Application/chromedriver.exe",chrome_options=chrome_options)
+        # options = webdriver.firefox.options.Options()
+        # options.add_argument("--headless")
+        # self.browser = webdriver.Firefox(executable_path='C:\Program Files\Mozilla Firefox\geckodriver.exe',options=options)
 
-
+    
     def login(self):
 
         self.browser.get('https://www.linkedin.com/uas/login')
@@ -25,7 +28,8 @@ class linkedIn:
         elementID.send_keys(password)
         elementID.submit()
 
-    def  scrap(self,link):    
+    def scrap(self,link):
+        time.sleep(10)
         self.browser.get(link)
         SCROLL_PAUSE_TIME = 3
 
@@ -126,15 +130,15 @@ class linkedIn:
 
         try:
             college_name = edu_section.find('h3').get_text().strip()
-            print("college_name : ------",college_name)
+           
             degree_name = edu_section.find('p', {'class': 'pv-entity__secondary-title pv-entity__degree-name t-14 t-black t-normal'}).find_all('span')[1].get_text().strip()
-            print("Degree : ------",degree_name)
+            
 
             stream = edu_section.find('p', {'class': 'pv-entity__secondary-title pv-entity__fos t-14 t-black t-normal'}).find_all('span')[1].get_text().strip()
-            print("stream : ------",stream)
+            
 
             degree_year = edu_section.find('p', {'class': 'pv-entity__dates t-14 t-black--light t-normal'}).find_all('span')[1].get_text().strip()
-            print("degree_year : ------",degree_year)
+           
         except:
             pass
 
@@ -157,22 +161,9 @@ class linkedIn:
             info[11]=degree_year
         except:
             pass
-
-        print("----------------------------------------------------------------------------------------------------------")
-        print(info)
-        print("----------------------------------------------------------------------------------------------------------")
         
         return info
-        
-# obj = linkedIn() 
-# obj.login()
-# list_of_link = ['https://www.linkedin.com/in/ganesh-singh-suryvanshi-0659b0139/',
-#                 'https://www.linkedin.com/in/pankaj-lal-937685124/',
-#                 'https://www.linkedin.com/in/talish-hussain-362a2317b/',
-#                 'https://www.linkedin.com/in/vasundhara-tiwari-65612a13a/',
-#                 'https://www.linkedin.com/in/khushboo-patel-383722151/']    
-# for i in list_of_link:
-#     obj.scrap(i)
 
     def close(self):
         self.browser.close()
+    

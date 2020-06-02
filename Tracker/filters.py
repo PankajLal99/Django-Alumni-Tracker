@@ -4,6 +4,7 @@ from django import forms
 from django_filters import DateFilter, CharFilter
 
 class ProfileFilter(django_filters.FilterSet):
+    RollNo= CharFilter(field_name='RollNo', lookup_expr='icontains')
     Branch= CharFilter(field_name='Branch', lookup_expr='icontains')
     Company= CharFilter(field_name='Company', lookup_expr='icontains')
     class Meta:
@@ -11,5 +12,3 @@ class ProfileFilter(django_filters.FilterSet):
         fields=['RollNo','Year','Branch','Company']
         #fields='__all__'
         exclude=['Image']
-      
-        
