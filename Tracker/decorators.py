@@ -24,7 +24,6 @@ def allowed_users(allowed_roles=[]):
     return decorator
 
 
-
 def admin_only(view_func):
     def check_user(request, *args, **kwargs):
         group=None

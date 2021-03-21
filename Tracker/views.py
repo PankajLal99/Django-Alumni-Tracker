@@ -55,7 +55,7 @@ def signup(request):
             user = form.save()
             username = form.cleaned_data.get('username')
             messages.success(request,"User Created Successfully for "+username)
-            '''Add group while register bew=low two lines'''
+            '''Add group while register bewlow two lines'''
             group= Group.objects.get(name='student')
             user.groups.add(group)
             '''Till herer''' 
@@ -84,8 +84,6 @@ def userpage(request):
 @login_required(login_url='login')
 def profile(request,pk):
     profile_info=Profile.objects.get(id=pk)
-    print("*%"*100)
-    print(profile_info)
     data=Scrapper_Data.objects.get(profile=profile_info)
     context={
         'info':profile_info,
@@ -96,7 +94,7 @@ def profile(request,pk):
 @login_required(login_url='login')
 def info(request):
     blog=Blog.objects.filter(status=1).order_by('-created_on')[0:3]
-    
+    #orm
     data=Profile.objects.all()
     for i in data:
         if i.RollNo is None and not request.user.is_staff:
@@ -143,8 +141,6 @@ def scrapper(request):
     try:
         obj.login()
         for i in l:
-            print("$#"*20)
-            print("******************",i)
             data=obj.scrap(i.linkedIn_Link)
             Scrapper_Data.objects.filter(profile=i).update(name=data[1],profile_title=data[2],location=data[3],connection=data[4],   experience=data[7],job_title=data[5],joining_date=data[6],college_name=data[8],degree_name=data[9],stream=data[10],degree_year=data[11])
             time.sleep(5)

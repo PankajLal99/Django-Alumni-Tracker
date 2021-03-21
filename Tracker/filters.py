@@ -10,5 +10,4 @@ class ProfileFilter(django_filters.FilterSet):
     class Meta:
         model=Profile
         fields=['RollNo','Year','Branch','Company']
-        #fields='__all__'
         exclude=['Image']

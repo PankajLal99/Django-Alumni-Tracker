@@ -1,0 +1,6 @@
+pip install django-widget-tweaks
+pip install django-crispy-forms
+pip install django-filter
+pip install selenium
+pip install plotly-express
+path for chrome driver needed in Tracker->scrapper.py file
